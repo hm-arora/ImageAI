@@ -1,6 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { createTrainingRequest } from "@/actions/training_request.action";
 import { createUUID } from "@/lib/uuid";
 import { getPublicFileUrl, uploadFileToBucket } from "@/lib/files";
 
@@ -87,13 +88,26 @@ export async function POST(request: Request) {
     const user = await validateSession();
     const body = await request.json();
     const { images_data_url, image_data, trigger_word } = validateRequest(body);
-    // const cover_image_url = await getUploadCoverImage(image_data);
+    const cover_image_url = await getUploadCoverImage(image_data);
     const data = await processRequest(images_data_url, trigger_word);
 
     if (data.status === "IN_QUEUE") {
-      console.log("===================================");
-      console.log("Model training request created");
-      console.log("===================================");
+      const request_id = data.request_id;
+      const user_id = user.id;
+
+      // Create a DB entry for the training request
+      await createTrainingRequest({
+        user_id,
+        request_id,
+        status: "pending",
+        started_at: new Date(),
+        other_details: {
+          images_data_url,
+        },
+        name: body.name,
+        cover_image_url,
+        description: body.description,
+      });
     }
 
     return NextResponse.json(data);
