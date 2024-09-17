@@ -4,6 +4,8 @@ import ImageUploader from "@/components/custom/ImageUploader";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
+import JSZip from "jszip";
 
 export default function Dashboard() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
@@ -11,12 +13,100 @@ export default function Dashboard() {
   const [modelDescription, setModelDescription] = useState("");
   const [triggerWord, setTriggerWord] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [zipPublicUrl, setZipPublicUrl] = useState<string | null>(null);
 
   const handleReset = () => {
     setUploadedImages([]);
     setModelName("");
     setModelDescription("");
     setTriggerWord("");
+  };
+
+  const isError = () => {
+    if (!modelName || modelName.trim().length === 0) {
+      toast({
+        title: "Error",
+        description: "Please enter a model name",
+        variant: "destructive",
+      });
+      return true;
+    }
+    if (uploadedImages.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please upload images",
+        variant: "destructive",
+      });
+      return true;
+    }
+    if (uploadedImages.length < 4) {
+      toast({
+        title: "Error",
+        description: "Please upload at least 4 images",
+        variant: "destructive",
+      });
+      return true;
+    }
+    if (!triggerWord || triggerWord.trim().length === 0) {
+      toast({
+        title: "Error",
+        description: "Please enter a trigger word",
+        variant: "destructive",
+      });
+      return true;
+    }
+    return false;
+  };
+
+  const handleUpload = async () => {
+    setIsGenerating(true);
+    setZipPublicUrl(null); // Reset the URL when starting a new upload
+    console.log("Creating zip file...");
+    const zip = new JSZip();
+
+    // Add each image to the zip file
+    uploadedImages.forEach((img, index) => {
+      const base64Data = img.split(",")[1];
+      const binaryData = Uint8Array.from(atob(base64Data), (c) =>
+        c.charCodeAt(0)
+      );
+      zip.file(`image_${index + 1}.png`, binaryData, { base64: true });
+    });
+
+    // Generate the zip file
+    const content = await zip.generateAsync({ type: "blob" });
+
+    console.log("content", content);
+    // Create FormData and append the zip file
+    const formData = new FormData();
+    formData.append("file", content, "uploaded_images.zip");
+
+    try {
+      const response = await fetch("/api/data-upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Zip file uploaded successfully");
+        setZipPublicUrl(data.publicUrl);
+      } else {
+        console.error("Failed to upload zip file");
+        // Handle the error, maybe show an error message to the user
+      }
+    } catch (error) {
+      console.error("Error uploading zip file:", error);
+      // Handle the error, maybe show an error message to the user
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const generateModel = async () => {
+    // if (isError()) return;
+    setIsGenerating(true);
+    await handleUpload();
   };
 
   return (
@@ -74,8 +164,9 @@ export default function Dashboard() {
             onImagesUploaded={setUploadedImages}
             uploadedImages={uploadedImages}
           />
+          <p>{zipPublicUrl}</p>
           <div className="mt-6 flex gap-4 flex-row-reverse">
-            <Button>
+            <Button onClick={generateModel} disabled={isGenerating}>
               {isGenerating ? (
                 <>
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
