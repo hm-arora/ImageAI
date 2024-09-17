@@ -6,14 +6,15 @@ import { Loader } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import JSZip from "jszip";
+import { useRouter } from "next/navigation";
 
-export default function Dashboard() {
+export default function TrainModel() {
+  const router = useRouter();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [modelName, setModelName] = useState("");
   const [modelDescription, setModelDescription] = useState("");
   const [triggerWord, setTriggerWord] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [zipPublicUrl, setZipPublicUrl] = useState<string | null>(null);
 
   const handleReset = () => {
     setUploadedImages([]);
@@ -58,9 +59,8 @@ export default function Dashboard() {
     return false;
   };
 
-  const handleUpload = async () => {
+  const getZipPublicUrl = async () => {
     setIsGenerating(true);
-    setZipPublicUrl(null); // Reset the URL when starting a new upload
     console.log("Creating zip file...");
     const zip = new JSZip();
 
@@ -90,7 +90,7 @@ export default function Dashboard() {
       if (response.ok) {
         const data = await response.json();
         console.log("Zip file uploaded successfully");
-        setZipPublicUrl(data.publicUrl);
+        return data.publicUrl;
       } else {
         console.error("Failed to upload zip file");
         // Handle the error, maybe show an error message to the user
@@ -103,10 +103,59 @@ export default function Dashboard() {
     }
   };
 
-  const generateModel = async () => {
-    // if (isError()) return;
+  const startModelTraining = async () => {
+    const modelDesc =
+      modelDescription.trim().length === 0
+        ? `Generate high quality images of ${modelName}`
+        : modelDescription;
     setIsGenerating(true);
-    await handleUpload();
+    const zipPublicUrl = await getZipPublicUrl();
+    if (!zipPublicUrl) {
+      toast({
+        title: "Error",
+        description: "Failed to upload zip file",
+        variant: "destructive",
+      });
+      return;
+    }
+    try {
+      const response: any = await fetch("/api/provider/start-training", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          images_data_url: zipPublicUrl,
+          name: modelName,
+          description: modelDesc,
+          trigger_word: triggerWord,
+          image_data: uploadedImages[0],
+        }),
+      });
+
+      if (response.error) {
+        console.error("Error during model training:", response.error);
+        return;
+      }
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Model training started:", data);
+        toast({
+          title: "Model training started",
+          description:
+            "Your model is being trained, this will take 3-5 minutes",
+        });
+        // Redirect to dashboard upon successful upload
+        router.push("/dashboard");
+      } else {
+        console.error("Model training failed");
+      }
+    } catch (error) {
+      console.error("Error during model training:", error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -164,9 +213,8 @@ export default function Dashboard() {
             onImagesUploaded={setUploadedImages}
             uploadedImages={uploadedImages}
           />
-          <p>{zipPublicUrl}</p>
           <div className="mt-6 flex gap-4 flex-row-reverse">
-            <Button onClick={generateModel} disabled={isGenerating}>
+            <Button onClick={startModelTraining} disabled={isGenerating}>
               {isGenerating ? (
                 <>
                   <Loader className="mr-2 h-4 w-4 animate-spin" />
