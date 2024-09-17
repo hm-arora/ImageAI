@@ -4,6 +4,7 @@ export interface TrainingRequestDocument extends Document {
   _id: string;
   user_id: string; // Reference to the user who initiated the training
   request_id: string;
+  trigger_word: string;
   status: "pending" | "completed" | "failed";
   started_at: Date;
   completed_at?: Date; // Nullable in case the training hasn't completed yet
@@ -37,6 +38,10 @@ const TrainingRequestSchema = new Schema<TrainingRequestDocument>(
       ref: "User",
     },
     request_id: {
+      type: String,
+      required: true,
+    },
+    trigger_word: {
       type: String,
       required: true,
     },

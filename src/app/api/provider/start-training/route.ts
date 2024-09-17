@@ -99,6 +99,7 @@ export async function POST(request: Request) {
       await createTrainingRequest({
         user_id,
         request_id,
+        trigger_word,
         status: "pending",
         started_at: new Date(),
         other_details: {

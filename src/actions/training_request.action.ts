@@ -6,6 +6,7 @@ export const createTrainingRequest = async (values: any) => {
   const {
     user_id,
     request_id,
+    trigger_word,
     status,
     started_at,
     completed_at,
@@ -20,6 +21,7 @@ export const createTrainingRequest = async (values: any) => {
     const trainingRequestData = {
       user_id,
       request_id,
+      trigger_word,
       status,
       started_at,
       completed_at,
