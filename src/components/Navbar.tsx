@@ -34,6 +34,16 @@ export function Navbar() {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
+                  <Link href="/train">
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Create Model
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
                   <Link href="/pricing">
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
