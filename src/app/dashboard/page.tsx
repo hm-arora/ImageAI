@@ -1,9 +1,12 @@
-const Dashboard = () => {
-  return (
-    <div className="flex items-center w-full h-screen justify-center">
-      <p className="px-8 py-4 font-semibold">Dashboard Page</p>
-    </div>
-  );
+import { Metadata } from "next";
+import Dashboard from "./Dashboard";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
 };
 
-export default Dashboard;
+export default function Component() {
+  const initialData = null;
+
+  return <Dashboard initialData={initialData} />;
+}
