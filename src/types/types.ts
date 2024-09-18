@@ -15,3 +15,20 @@ export interface GetAllModelsResponse {
 export interface ErrorResponse {
   error: string;
 }
+
+export interface GeneratedImage {
+  url: string;
+  width: number;
+  height: number;
+  content_type: string;
+}
+
+export interface ImageGenerationResponse {
+  images: GeneratedImage[];
+  timings: {
+    inference: number;
+  };
+  seed: number;
+  has_nsfw_concepts: boolean[];
+  prompt: string;
+}

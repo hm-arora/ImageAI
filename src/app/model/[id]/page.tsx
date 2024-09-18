@@ -1,5 +1,10 @@
-const ModelPage = () => {
-  return <div>ModelPage</div>;
+import { Metadata } from "next";
+import GenerateImage from "../GenerateImage";
+
+export const metadata: Metadata = {
+  title: "Image generation",
 };
 
-export default ModelPage;
+export default function ModelPage({ params }: { params: { id: string } }) {
+  return <GenerateImage params={params} />;
+}
