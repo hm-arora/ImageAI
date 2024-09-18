@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { getTrainingRequest } from "@/actions/training_request.action";
+import { createImageGen } from "@/actions/image-generation.action";
 
 // MOCK:// Image generation
 const SHOULD_MOCK = false;
@@ -26,11 +27,22 @@ const MOCK_RESPONSE = {
 
 export async function POST(request: NextRequest) {
   try {
-    await validateSession();
+    const session = await validateSession();
     const { prompt, training_id } = await validateRequestBody(request);
     const loraUrl = await getLoraUrl(training_id);
     const requestBody = createRequestBody(prompt, loraUrl);
     const fluxResponse = await sendFluxApiRequest(requestBody);
+
+    // Call createImageGen with the response data
+    const imageGenResult = await createImageGen({
+      user_id: session.user!.id,
+      training_request_id: training_id,
+      image_generation: fluxResponse,
+    });
+
+    if (imageGenResult.error) {
+      throw new Error(imageGenResult.error);
+    }
 
     return NextResponse.json(fluxResponse);
   } catch (error) {
@@ -59,7 +71,6 @@ async function getLoraUrl(training_id: string) {
   if (result.error || !result.trainingRequest) {
     throw new Error("Training request not found");
   }
-  console.log(result.trainingRequest);
   const loraUrl = result.trainingRequest.diffusers_lora_file?.url;
   if (!loraUrl) {
     throw new Error("Something went wrong");
