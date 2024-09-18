@@ -20,6 +20,9 @@ import { signIn } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader } from "lucide-react"; // Add this import
 
+// Add this constant to control Email & Password flow
+const ENABLE_EMAIL_PASSWORD = false;
+
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("signin");
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +48,7 @@ export default function AuthPage() {
             variant: "destructive",
           });
         } else if (res?.ok) {
-          router.push("/");
+          router.push("/dashboard");
         }
       } else {
         const r = await register({
@@ -60,7 +63,7 @@ export default function AuthPage() {
             variant: "destructive",
           });
         } else {
-          router.push("/login");
+          router.push("/dashboard");
         }
       }
     } finally {
@@ -72,7 +75,7 @@ export default function AuthPage() {
     <Button
       variant="outline"
       className="w-full mb-4"
-      onClick={() => signIn("google", { callbackUrl: "/" })}
+      onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
     >
       <svg
         className="mr-2 h-4 w-4"
@@ -118,6 +121,12 @@ export default function AuthPage() {
         {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
         {type === "signin" ? "Sign In" : "Register"}
       </Button>
+      <p className="text-xs text-center text-muted-foreground">
+        By {type === "signin" ? "signing in" : "registering"}, you accept our{" "}
+        <a href="#" className="underline">
+          Terms and Conditions
+        </a>
+      </p>
     </form>
   );
 
@@ -134,40 +143,46 @@ export default function AuthPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
-              <TabsList className="grid w-full grid-cols-2 mb-4">
-                <TabsTrigger value="signin">Sign In</TabsTrigger>
-                <TabsTrigger value="register">Register</TabsTrigger>
-              </TabsList>
-              <TabsContent value="signin" className="space-y-4">
-                <GoogleButton action="Sign In" />
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
+            {ENABLE_EMAIL_PASSWORD ? (
+              <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <TabsList className="grid w-full grid-cols-2 mb-4">
+                  <TabsTrigger value="signin">Sign In</TabsTrigger>
+                  <TabsTrigger value="register">Register</TabsTrigger>
+                </TabsList>
+                <TabsContent value="signin" className="space-y-4">
+                  <GoogleButton action="Sign In" />
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">
+                        Or continue with email
+                      </span>
+                    </div>
                   </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      Or continue with email
-                    </span>
+                  <AuthForm type="signin" />
+                </TabsContent>
+                <TabsContent value="register" className="space-y-4">
+                  <GoogleButton action="Register" />
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">
+                        Or register with email
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <AuthForm type="signin" />
-              </TabsContent>
-              <TabsContent value="register" className="space-y-4">
-                <GoogleButton action="Register" />
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      Or register with email
-                    </span>
-                  </div>
-                </div>
-                <AuthForm type="register" />
-              </TabsContent>
-            </Tabs>
+                  <AuthForm type="register" />
+                </TabsContent>
+              </Tabs>
+            ) : (
+              <div className="space-y-4">
+                <GoogleButton action="Continue" />
+              </div>
+            )}
           </CardContent>
           <CardFooter>{/* Error handling is now done via toast */}</CardFooter>
         </Card>
