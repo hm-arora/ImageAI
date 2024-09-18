@@ -62,7 +62,9 @@ const ModelCard = ({ model }: { model: TrainingModel }) => {
           </div>
           {model.status === "pending" && (
             <div className="flex items-center gap-2 flex-col">
-              {showTimer && <p>{formatTime(elapsedTime)}</p>}
+              {showTimer && (
+                <p className="text-white">{formatTime(elapsedTime)}</p>
+              )}
               <Badge>Pending</Badge>
             </div>
           )}
