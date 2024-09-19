@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +10,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { LogOut } from "lucide-react";
+import { Session } from "next-auth";
 
-export default function UserButton() {
+interface UserButtonProps {
+  session: Session | null;
+}
+
+export default function UserButton({ session }: UserButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession();
 
   const handleSignOut = () => {
     signOut({ callbackUrl: "/" });
@@ -27,7 +31,7 @@ export default function UserButton() {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="relative h-8 w-8 rounded-full border"
+          className="relative h-8 w-8 rounded-full border z-40"
         >
           <Avatar className="h-8 w-8">
             <AvatarImage
@@ -38,7 +42,7 @@ export default function UserButton() {
           </Avatar>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80" align="end">
+      <PopoverContent className="w-full md:w-80  rounded-lg" align="end">
         <div className="flex flex-col space-y-4">
           <div className="flex items-center space-x-4">
             <Avatar className="h-16 w-16">

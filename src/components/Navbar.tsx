@@ -1,63 +1,51 @@
 "use client";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import UserButton from "@/components/UserButton";
 
-export function Navbar() {
-  const { status } = useSession();
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import UserButton from "./UserButton";
+import { useSession } from "next-auth/react";
+import MobileNav from "./MobileNav";
+
+const Navbar = () => {
+  const pathname = usePathname();
+  const { data: session } = useSession();
+
+  if (!session || !session.user) return null;
 
   return (
-    <nav className="border-b">
-      <div className="container flex py-4 items-center justify-between">
-        <NavigationMenu>
-          <NavigationMenuList>
-            {status === "unauthenticated" && (
-              <p>Sign in to see the dashboard</p>
-            )}
-            {status === "authenticated" && (
-              <div className="flex items-center gap-4">
-                <NavigationMenuItem>
-                  <Link href="/dashboard" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Authenticated Dashboard
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <Link href="/train">
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Create Model
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <Link href="/pricing">
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Pricing
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              </div>
-            )}
-          </NavigationMenuList>
-        </NavigationMenu>
-        {status === "authenticated" && <UserButton />}
+    <div className="p-4 flex items-center justify-between bg-dashboard-background border-b border-white/4">
+      <div className="flex items-center space-x-8">
+        <Link href="/dashboard" className="text-xl font-bold z-40">
+          ImageAI
+        </Link>
+        <nav className="hidden sm:block">
+          <ul className="flex space-x-6">
+            {[
+              { href: "/dashboard", label: "Dashboard" },
+              { href: "/train", label: "Create Model" },
+            ].map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`${
+                    pathname === link.href
+                      ? "text-white"
+                      : "text-white/60 hover:text-white/80"
+                  } transition-colors duration-200 font-semibold"`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
-    </nav>
+      <div className="flex items-center space-x-4">
+        <MobileNav />
+        <UserButton session={session} />
+      </div>
+    </div>
   );
-}
+};
+
+export default Navbar;

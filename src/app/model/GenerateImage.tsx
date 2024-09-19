@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/types/types";
 import { cn } from "@/lib/utils";
+import { NavbarWrapper } from "@/components/NavbarWrapper";
 
 type ModelPageProps = {
   params: { id: string };
@@ -103,66 +104,68 @@ export default function GenerateImage({ params }: ModelPageProps) {
   }
 
   return (
-    <div>
-      <div className="flex flex-col md:flex-row gap-4 p-4 max-w-7xl mx-auto">
-        <div className="w-full md:w-1/2 space-y-4">
-          <div className="space-y-4">
-            <label htmlFor="prompt" className="text-lg font-semibold">
-              Prompt
-            </label>
-            <Textarea
-              id="prompt"
-              placeholder="Enter your prompt here..."
-              className="h-32 bg-dashboard-background/80 border-gray-700 resize-none text-xl font-semibold min-h-[200px]"
-              onChange={(e) => {
-                const value = e.target.value;
-                setPrompt(value);
-              }}
-              onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) => {
-                if (e.metaKey && e.key === "Enter") {
-                  generateImage();
-                }
-              }}
-            />
+    <NavbarWrapper>
+      <div>
+        <div className="flex flex-col md:flex-row gap-4 p-4 max-w-7xl mx-auto">
+          <div className="w-full md:w-1/2 space-y-4">
+            <div className="space-y-4">
+              <label htmlFor="prompt" className="text-lg font-semibold">
+                Prompt
+              </label>
+              <Textarea
+                id="prompt"
+                placeholder="Enter your prompt here..."
+                className="h-32 bg-dashboard-background/80 border-gray-700 resize-none text-xl font-semibold min-h-[200px]"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setPrompt(value);
+                }}
+                onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) => {
+                  if (e.metaKey && e.key === "Enter") {
+                    generateImage();
+                  }
+                }}
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button variant="outline" onClick={() => setPrompt("")}>
+                Reset
+              </Button>
+              <Button onClick={generateImage} disabled={isGenerating}>
+                {isGenerating ? "Generating..." : "Generate"}
+              </Button>
+            </div>
           </div>
-          <div className="flex justify-end space-x-2">
-            <Button variant="outline" onClick={() => setPrompt("")}>
-              Reset
-            </Button>
-            <Button onClick={generateImage} disabled={isGenerating}>
-              {isGenerating ? "Generating..." : "Generate"}
-            </Button>
-          </div>
-        </div>
-        <div className="w-full md:w-1/2 space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold">Result</h2>
-          </div>
-          <div className="aspect-square bg-dashboard-background/80 rounded-md flex items-center justify-center">
-            {imageGen && imageGen.images && imageGen.images.length > 0 ? (
-              <div className="relative">
-                <img
-                  src={imageGen.images[0].url}
-                  alt="Generated image"
-                  className="w-full rounded-lg"
-                  onLoad={() => setImageLoaded(true)}
-                />
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-2">
-                {[...Array(4)].map((_, i) => (
-                  <div
-                    key={i}
-                    className={cn("w-16 h-16 bg-black/30 rounded-lg", {
-                      "animate-bounce": isGenerating,
-                    })}
+          <div className="w-full md:w-1/2 space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-semibold">Result</h2>
+            </div>
+            <div className="aspect-square bg-dashboard-background/80 rounded-md flex items-center justify-center">
+              {imageGen && imageGen.images && imageGen.images.length > 0 ? (
+                <div className="relative">
+                  <img
+                    src={imageGen.images[0].url}
+                    alt="Generated image"
+                    className="w-full rounded-lg"
+                    onLoad={() => setImageLoaded(true)}
                   />
-                ))}
-              </div>
-            )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  {[...Array(4)].map((_, i) => (
+                    <div
+                      key={i}
+                      className={cn("w-16 h-16 bg-black/30 rounded-lg", {
+                        "animate-bounce": isGenerating,
+                      })}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </NavbarWrapper>
   );
 }

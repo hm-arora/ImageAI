@@ -9,6 +9,7 @@ import JSZip from "jszip";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Progress } from "@/components/ui/progress";
+import { NavbarWrapper } from "@/components/NavbarWrapper";
 
 export default function TrainModel() {
   const router = useRouter();
@@ -165,117 +166,121 @@ export default function TrainModel() {
   };
 
   return (
-    <div className="p-4 md:p-12 max-w-7xl mx-auto overflow-x-hidden">
-      <h1 className="text-4xl font-bold mb-6">Train a new model</h1>
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Left column: Current UI */}
-        <div className="w-full md:w-1/2">
-          <div className="mb-6">
-            <label
-              htmlFor="modelName"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Model Name
-            </label>
-            <Input
-              id="modelName"
-              type="text"
-              placeholder="Enter model name"
-              value={modelName}
-              onChange={(e) => setModelName(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="modelDescription"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Model Description
-            </label>
-            <Input
-              id="modelDescription"
-              type="text"
-              placeholder="Enter model description"
-              value={modelDescription}
-              onChange={(e) => setModelDescription(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="triggerWord"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Trigger Word
-            </label>
-            <Input
-              id="triggerWord"
-              type="text"
-              placeholder="Enter trigger word"
-              value={triggerWord}
-              onChange={(e) => setTriggerWord(e.target.value)}
-              required
-            />
-          </div>
-          <ImageUploader
-            onImagesUploaded={setUploadedImages}
-            uploadedImages={uploadedImages}
-          />
-          <div className="mt-6 flex gap-4 flex-row-reverse">
-            <Button onClick={startModelTraining} disabled={isGenerating}>
-              {isGenerating ? (
-                <>
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                "Train Model"
-              )}
-            </Button>
-            <Button onClick={handleReset} variant="outline">
-              Reset
-            </Button>
-          </div>
-          {isGenerating && progress < 100 && (
-            <div className="mt-6">
-              <Progress value={progress} />
-              <p className="text-sm text-gray-500">{progress.toFixed(2)}%</p>
+    <NavbarWrapper>
+      <div className="p-4 md:p-12 max-w-7xl mx-auto overflow-x-hidden">
+        <h1 className="text-3xl md:text-4xl font-bold mb-6">
+          Train a new model
+        </h1>
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Left column: Current UI */}
+          <div className="w-full md:w-1/2">
+            <div className="mb-6">
+              <label
+                htmlFor="modelName"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Model Name
+              </label>
+              <Input
+                id="modelName"
+                type="text"
+                placeholder="Enter model name"
+                value={modelName}
+                onChange={(e) => setModelName(e.target.value)}
+              />
             </div>
-          )}
-        </div>
-
-        {/* Right column: Tutorial */}
-        <div className="w-full md:w-1/2 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">
-            Optimize Your Model Training
-          </h2>
-          <p className="mb-4">
-            Create a powerful and accurate AI model by following these
-            guidelines for your training images:
-          </p>
-
-          <div className="mb-6">
-            <h3 className="text-xl font-semibold mb-2">Ideal Images:</h3>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>High-resolution (at least 512x512 pixels)</li>
-              <li>Clear, well-lit subjects</li>
-              <li>Variety of poses and expressions</li>
-              <li>Consistent style or theme</li>
-              <li>Diverse backgrounds</li>
-            </ul>
+            <div className="mb-6">
+              <label
+                htmlFor="modelDescription"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Model Description
+              </label>
+              <Input
+                id="modelDescription"
+                type="text"
+                placeholder="Enter model description"
+                value={modelDescription}
+                onChange={(e) => setModelDescription(e.target.value)}
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="triggerWord"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Trigger Word
+              </label>
+              <Input
+                id="triggerWord"
+                type="text"
+                placeholder="Enter trigger word"
+                value={triggerWord}
+                onChange={(e) => setTriggerWord(e.target.value)}
+                required
+              />
+            </div>
+            <ImageUploader
+              onImagesUploaded={setUploadedImages}
+              uploadedImages={uploadedImages}
+            />
+            <div className="mt-6 flex gap-4 flex-row-reverse">
+              <Button onClick={startModelTraining} disabled={isGenerating}>
+                {isGenerating ? (
+                  <>
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  "Train Model"
+                )}
+              </Button>
+              <Button onClick={handleReset} variant="outline">
+                Reset
+              </Button>
+            </div>
+            {isGenerating && progress < 100 && (
+              <div className="mt-6">
+                <Progress value={progress} />
+                <p className="text-sm text-gray-500">{progress.toFixed(2)}%</p>
+              </div>
+            )}
           </div>
 
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Images to Avoid:</h3>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Blurry or low-quality photos</li>
-              <li>Group shots or images with multiple subjects</li>
-              <li>Heavy filters or extreme editing</li>
-              <li>Copyrighted or watermarked images</li>
-              <li>Inappropriate or offensive content</li>
-            </ul>
+          {/* Right column: Tutorial */}
+          <div className="w-full md:w-1/2 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
+            <h2 className="text-2xl font-semibold mb-4">
+              Optimize Your Model Training
+            </h2>
+            <p className="mb-4">
+              Create a powerful and accurate AI model by following these
+              guidelines for your training images:
+            </p>
+
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold mb-2">Ideal Images:</h3>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>High-resolution (at least 512x512 pixels)</li>
+                <li>Clear, well-lit subjects</li>
+                <li>Variety of poses and expressions</li>
+                <li>Consistent style or theme</li>
+                <li>Diverse backgrounds</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-2">Images to Avoid:</h3>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>Blurry or low-quality photos</li>
+                <li>Group shots or images with multiple subjects</li>
+                <li>Heavy filters or extreme editing</li>
+                <li>Copyrighted or watermarked images</li>
+                <li>Inappropriate or offensive content</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </NavbarWrapper>
   );
 }

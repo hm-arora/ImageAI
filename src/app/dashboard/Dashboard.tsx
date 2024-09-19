@@ -13,6 +13,7 @@ import Link from "next/link";
 import { GetServerSideProps } from "next";
 import ModelCard from "@/components/custom/ModelCard";
 import { GetAllModelsResponse } from "@/types/types";
+import { NavbarWrapper } from "@/components/NavbarWrapper";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -67,41 +68,39 @@ export default function Dashboard({
   );
 
   return (
-    <div>
-      <div className="p-8  h-full">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Models</h2>
-          <Link href="/train">
-            <Button>
-              Create Model
-            </Button>
-          </Link>
-        </div>
-        {isLoading ? (
-          <div className="grid w-full flex-1 grid-cols-1 gap-6 pb-4 md:grid-cols-2 md:px-2 lg:grid-cols-5">
-            {Array(6)
-              .fill(0)
-              .map((_, index) => (
-                <SkeletonCard key={index} />
-              ))}
-          </div>
-        ) : (trainingModel?.models?.length ?? 0) === 0 ? (
-          <div className="text-center text-gray-400 py-8">
-            <p className="text-xl mb-4">No models available</p>
+    <NavbarWrapper>
+      <div>
+        <div className="p-8  h-full">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">Models</h2>
             <Link href="/train">
-              <Button className="">
-                Create a new model
-              </Button>
+              <Button>Create Model</Button>
             </Link>
           </div>
-        ) : (
-          <div className="grid w-full flex-1 grid-cols-1 gap-6 pb-4 md:grid-cols-2 md:px-2 lg:grid-cols-6">
-            {trainingModel?.models.map((model) => (
-              <ModelCard key={model.id} model={model} />
-            ))}
-          </div>
-        )}
+          {isLoading ? (
+            <div className="grid w-full flex-1 grid-cols-1 gap-6 pb-4 md:grid-cols-2 md:px-2 lg:grid-cols-5">
+              {Array(6)
+                .fill(0)
+                .map((_, index) => (
+                  <SkeletonCard key={index} />
+                ))}
+            </div>
+          ) : (trainingModel?.models?.length ?? 0) === 0 ? (
+            <div className="text-center text-gray-400 py-8">
+              <p className="text-xl mb-4">No models available</p>
+              <Link href="/train">
+                <Button className="">Create a new model</Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="grid w-full flex-1 grid-cols-1 gap-6 pb-4 md:grid-cols-2 md:px-2 lg:grid-cols-6">
+              {trainingModel?.models.map((model) => (
+                <ModelCard key={model.id} model={model} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </NavbarWrapper>
   );
 }

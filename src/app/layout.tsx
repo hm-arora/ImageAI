@@ -3,7 +3,6 @@ import "./globals.css";
 import { cn, constructMetadata } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { Provider } from "./provider";
-import { Navbar } from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +21,7 @@ export default function RootLayout({
             inter.className
           )}
         >
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
           <Toaster />
         </body>
