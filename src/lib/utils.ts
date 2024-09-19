@@ -13,7 +13,7 @@ export function absoluteUrl(path: string) {
 export function constructMetadata({
   title = "ImageAI",
   description = "Description",
-  image = "/thumbnail.avif",
+  image = "/thumbnail.jpeg",
   icons = "/favicon.ico",
   noIndex = false,
 }: {
@@ -40,7 +40,7 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: "@hm-arora",
+      creator: "@hm_arora",
     },
     icons,
     metadataBase: new URL("https://google.com"),
