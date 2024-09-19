@@ -1,16 +1,17 @@
-import { getSubscriptionByUserId } from "@/actions/lemon-squeezy";
-import PricingComponent from "./PricingComponent";
-import { useSession } from "next-auth/react";
-import { getServerSession } from "next-auth";
+import PricingComponent from "@/components/custom/PricingComponent";
+import { NavbarWrapper } from "@/components/NavbarWrapper";
 import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
-const Pricing = async () => {
+const PricingPage = async () => {
   const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    throw new Error("User not logged in");
-  }
-  const subscription = await getSubscriptionByUserId(session.user.id);
-  return <PricingComponent isPro={subscription?.status === "active"} />;
+  return (
+    <NavbarWrapper>
+      <div className="transition-bg relative flex h-full flex-col items-center justify-center bg-zinc-50  font-satoshi text-slate-950 dark:bg-[#121212]">
+        <PricingComponent session={session} />
+      </div>
+    </NavbarWrapper>
+  );
 };
 
-export default Pricing;
+export default PricingPage;

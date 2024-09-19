@@ -32,3 +32,23 @@ export interface ImageGenerationResponse {
   has_nsfw_concepts: boolean[];
   prompt: string;
 }
+
+export interface PricingItem {
+  plan: string;
+  slug: string;
+  tagline: string;
+  features: {
+    text: string;
+    footnote?: string;
+    negative?: boolean;
+  }[];
+  price: {
+    amount: number;
+    cutAmount?: number;
+    priceIds: {
+      test: string;
+      production: string;
+    };
+  };
+  checkoutUrl: string;
+}

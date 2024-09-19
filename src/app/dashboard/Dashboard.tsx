@@ -93,7 +93,7 @@ export default function Dashboard({
               </Link>
             </div>
           ) : (
-            <div className="grid w-full flex-1 grid-cols-1 gap-6 pb-4 md:grid-cols-2 md:px-2 lg:grid-cols-6">
+            <div className="grid w-full flex-1 grid-cols-1 gap-6 pb-4 md:grid-cols-2 md:px-2 lg:grid-cols-4 xl:grid-cols-6">
               {trainingModel?.models.map((model) => (
                 <ModelCard key={model.id} model={model} />
               ))}
