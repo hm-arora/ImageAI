@@ -10,6 +10,7 @@ import { PRICING_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Check, HelpCircle, Minus } from "lucide-react";
 import { Session } from "next-auth";
+import { toast } from "../ui/use-toast";
 
 const PricingComponent = ({ session }: { session: Session | null }) => {
   const generateCheckoutUrl = (baseUrl: string) => {
@@ -119,10 +120,14 @@ const PricingComponent = ({ session }: { session: Session | null }) => {
                         "w-full bg-blue-600 hover:bg-blue-700 text-white cursor-pointer",
                     })}
                     onClick={() => {
-                      window.open(
-                        generateCheckoutUrl(item.checkoutUrl),
-                        "_blank"
-                      );
+                      toast({
+                        title: "Pricing Coming Soon!",
+                        description: "Stay tuned!",
+                      });
+                      // window.open(
+                      //   generateCheckoutUrl(item.checkoutUrl),
+                      //   "_blank"
+                      // );
                     }}
                   >
                     Get started

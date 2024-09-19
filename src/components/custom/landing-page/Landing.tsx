@@ -13,8 +13,10 @@ export function LandingPage() {
   const pricingRef = useRef<HTMLDivElement>(null);
 
   const scrollToPricing = () => {
-    console.log("scrolling to pricing");
-    pricingRef.current?.scrollIntoView({ behavior: "smooth" });
+    window.scrollTo({
+      top: pricingRef.current?.offsetTop,
+      behavior: "smooth",
+    });
   };
 
   return (
