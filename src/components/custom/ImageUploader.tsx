@@ -77,10 +77,10 @@ export default function ImageUploader({
           </svg>
         </div>
         <div className="flex max-w-[480px] flex-col items-center gap-2">
-          <p className="text-[#000000] text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center">
+          <p className="text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center">
             {isDragActive ? "Drop the images here" : "Drag & drop images here"}
           </p>
-          <p className="text-[#000000] text-sm font-normal leading-normal max-w-[480px] text-center">
+          <p className="text-sm font-normal leading-normal max-w-[480px] text-center">
             Or click to select files from your computer
           </p>
         </div>

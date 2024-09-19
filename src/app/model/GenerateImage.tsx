@@ -113,7 +113,7 @@ export default function GenerateImage({ params }: ModelPageProps) {
             <Textarea
               id="prompt"
               placeholder="Enter your prompt here..."
-              className="h-32 bg-dashboard-background/40 border-gray-700 resize-none text-xl font-semibold min-h-[200px]"
+              className="h-32 bg-dashboard-background/80 border-gray-700 resize-none text-xl font-semibold min-h-[200px]"
               onChange={(e) => {
                 const value = e.target.value;
                 setPrompt(value);
@@ -126,11 +126,7 @@ export default function GenerateImage({ params }: ModelPageProps) {
             />
           </div>
           <div className="flex justify-end space-x-2">
-            <Button
-              variant="outline"
-              className="text-black/80"
-              onClick={() => setPrompt("")}
-            >
+            <Button variant="outline" onClick={() => setPrompt("")}>
               Reset
             </Button>
             <Button onClick={generateImage} disabled={isGenerating}>
@@ -142,7 +138,7 @@ export default function GenerateImage({ params }: ModelPageProps) {
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">Result</h2>
           </div>
-          <div className="aspect-square bg-black/5 rounded-md flex items-center justify-center">
+          <div className="aspect-square bg-dashboard-background/80 rounded-md flex items-center justify-center">
             {imageGen && imageGen.images && imageGen.images.length > 0 ? (
               <div className="relative">
                 <img
@@ -157,7 +153,7 @@ export default function GenerateImage({ params }: ModelPageProps) {
                 {[...Array(4)].map((_, i) => (
                   <div
                     key={i}
-                    className={cn("w-16 h-16 bg-black/10 rounded-lg", {
+                    className={cn("w-16 h-16 bg-black/30 rounded-lg", {
                       "animate-bounce": isGenerating,
                     })}
                   />

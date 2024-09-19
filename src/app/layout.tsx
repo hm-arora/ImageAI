@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <Provider>
-      <html lang="en" className="">
+      <html lang="en" className="dark">
         <body
           className={cn(
             "min-h-screen font-sans bg-white dark:bg-[#0E0F16] dark:text-[#f2f2f2]",
