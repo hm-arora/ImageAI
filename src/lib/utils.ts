@@ -43,7 +43,7 @@ export function constructMetadata({
       creator: "@hm_arora",
     },
     icons,
-    metadataBase: new URL("https://google.com"),
+    metadataBase: new URL("https://image-product.vercel.app"),
     ...(noIndex && {
       robots: {
         index: false,
