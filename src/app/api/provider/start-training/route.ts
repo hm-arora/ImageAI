@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { createTrainingRequest } from "@/actions/training_request.action";
 import { createUUID } from "@/lib/uuid";
 import { getPublicFileUrl, uploadFileToBucket } from "@/lib/files";
+import { deductCredits, getCreditBalance } from "@/actions/credit.action";
 
 // MOCK:// Image train model upload
 const SHOULD_MOCK = false;
@@ -36,6 +37,13 @@ function validateRequest(body: any) {
     throw new Error("Images are required");
   }
   return { images_data_url, image_data, trigger_word };
+}
+
+async function validateCredits(user_id: string) {
+  const credits = await getCreditBalance(user_id);
+  if (credits < Number(process.env.PER_MODEL_TRAIN_CREDIT)) {
+    throw new Error("Insufficient credits");
+  }
 }
 
 async function getUploadCoverImage(image_data: string) {
@@ -88,6 +96,7 @@ export async function POST(request: Request) {
     const user = await validateSession();
     const body = await request.json();
     const { images_data_url, image_data, trigger_word } = validateRequest(body);
+    await validateCredits(user.id);
     const cover_image_url = await getUploadCoverImage(image_data);
     const data = await processRequest(images_data_url, trigger_word);
 
@@ -109,6 +118,12 @@ export async function POST(request: Request) {
         cover_image_url,
         description: body.description,
       });
+
+      await deductCredits(
+        user.id,
+        Number(process.env.PER_MODEL_TRAIN_CREDIT),
+        `Model trained for request ${request_id}`
+      );
     }
 
     return NextResponse.json(data);

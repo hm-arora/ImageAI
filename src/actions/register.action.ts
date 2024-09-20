@@ -2,6 +2,8 @@
 import { connectDB } from "@/lib/mongodb";
 import User, { UserDocument } from "@/models/user.model";
 import bcrypt from "bcryptjs";
+import { addCredits } from "./credit.action";
+import { CreditType } from "@/lib/constants";
 
 export const register = async (values: any) => {
   const { email, password, name, image } = values;
@@ -29,6 +31,11 @@ export const register = async (values: any) => {
 
     const user = new User(userData);
     const savedUser = await user.save();
+    await addCredits(
+      savedUser._id,
+      Number(process.env.DEFAULT_CREDITS ?? "0"),
+      CreditType.USER_REGISTRATION
+    );
     return { success: true, user: savedUser };
   } catch (e) {
     console.error(e);

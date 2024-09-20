@@ -5,12 +5,14 @@ import bcrypt from "bcryptjs";
 import User from "@/models/user.model";
 import { DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { findOrCreateUser, getUserById } from "@/actions/register.action";
+import { findOrCreateUser } from "@/actions/register.action";
+import { getCreditBalance } from "@/actions/credit.action";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user?: {
       id: string;
+      credits: number;
     } & DefaultSession["user"];
   }
 }
@@ -67,16 +69,17 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
       }
-      const dbUser = await getUserById(token.id as string);
-      token.userName = dbUser?.name;
-      console.log("token", token);
+      // Fetch credit balance and add it to the token
+      if (token.id) {
+        const credits = await getCreditBalance(token.id as string);
+        token.credits = credits;
+      }
       return token;
     },
     session: async ({ session, token }) => {
-      console.log("session", session);
       if (session?.user) {
         session.user.id = token.id as string;
-        session.user.name = token.userName as string;
+        session.user.credits = token.credits as number;
       }
       return session;
     },

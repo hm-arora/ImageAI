@@ -57,6 +57,9 @@ export default function UserButton({ session }: UserButtonProps) {
               <p className="text-sm text-muted-foreground">
                 {session.user.email}
               </p>
+              <p className="text-sm text-muted-foreground">
+                Credits: {session.user.credits}
+              </p>
             </div>
           </div>
           <Button

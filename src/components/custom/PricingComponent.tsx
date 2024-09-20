@@ -62,16 +62,11 @@ const PricingComponent = ({ session }: { session: Session | null }) => {
                     )}
                     <p className="font-display text-6xl font-semibold text-white">
                       ${item.price.amount}
-                      {/* add mo */}
-                      <span className="text-gray-400  text-base ml-2">
-                        /month
-                      </span>
                     </p>
                   </div>
-                  <p className="text-gray-400">per month</p>
                 </div>
 
-                <ul className="my-10 space-y-5 px-8">
+                <ul className="my-5 space-y-5 px-8">
                   {item.features.map(({ text, footnote, negative }) => (
                     <li key={text} className="flex space-x-6">
                       <div className="flex-shrink-0">
@@ -120,14 +115,10 @@ const PricingComponent = ({ session }: { session: Session | null }) => {
                         "w-full bg-blue-600 hover:bg-blue-700 text-white cursor-pointer",
                     })}
                     onClick={() => {
-                      toast({
-                        title: "Pricing Coming Soon!",
-                        description: "Stay tuned!",
-                      });
-                      // window.open(
-                      //   generateCheckoutUrl(item.checkoutUrl),
-                      //   "_blank"
-                      // );
+                      window.open(
+                        generateCheckoutUrl(item.checkoutUrl),
+                        "_blank"
+                      );
                     }}
                   >
                     Get started

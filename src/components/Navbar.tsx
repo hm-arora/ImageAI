@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import UserButton from "./UserButton";
 import { useSession } from "next-auth/react";
 import MobileNav from "./MobileNav";
+import { Badge } from "./ui/badge";
+import { CoinsIcon, CreditCard } from "lucide-react";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -41,6 +43,16 @@ const Navbar = () => {
         </nav>
       </div>
       <div className="flex items-center space-x-4">
+        <Badge className="hidden items-center gap-1 sm:inline-flex py-1">
+          <CoinsIcon className="h-4 w-4" />
+          <span>{session.user.credits ?? 0} Credits</span>
+        </Badge>
+        <Link href="/pricing">
+          <Badge className="hidden items-center gap-1 sm:inline-flex py-1 cursor-pointer">
+            <CreditCard className="h-4 w-4" />
+            <span>Upgrade</span>
+          </Badge>
+        </Link>
         <MobileNav />
         <UserButton session={session} />
       </div>

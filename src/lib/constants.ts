@@ -7,10 +7,10 @@ export const PRICING_ITEMS: PricingItem[] = [
     tagline: "Kickstart your creativity with Snapper",
     features: [
       {
-        text: "Create 1 AI model per month",
+        text: "Create 1 AI model",
       },
       {
-        text: "Create 100 images per month",
+        text: "Create 100 images",
       },
       {
         text: "Full commercial use",
@@ -19,12 +19,8 @@ export const PRICING_ITEMS: PricingItem[] = [
     price: {
       amount: 10,
       cutAmount: 18,
-      priceIds: {
-        test: "snapper_test_id",
-        production: "snapper_prod_id",
-      },
     },
-    checkoutUrl: "",
+    checkoutUrl: process.env.NEXT_PUBLIC_PRODUCT_ID_1_URL as string,
   },
   {
     plan: "Creator",
@@ -32,10 +28,10 @@ export const PRICING_ITEMS: PricingItem[] = [
     tagline: "Unleash your imagination with Creator",
     features: [
       {
-        text: "Create 5 AI models per month",
+        text: "Create 5 AI models",
       },
       {
-        text: "Create 600 images per month",
+        text: "Create 600 images",
       },
       {
         text: "Full commercial use",
@@ -44,12 +40,8 @@ export const PRICING_ITEMS: PricingItem[] = [
     price: {
       amount: 39,
       cutAmount: 49,
-      priceIds: {
-        test: "creator_test_id",
-        production: "creator_prod_id",
-      },
     },
-    checkoutUrl: "",
+    checkoutUrl: process.env.NEXT_PUBLIC_PRODUCT_ID_2_URL as string,
   },
   {
     plan: "Visionary",
@@ -57,10 +49,10 @@ export const PRICING_ITEMS: PricingItem[] = [
     tagline: "Push the boundaries of creation with Visionary",
     features: [
       {
-        text: "Create 10 AI models per month",
+        text: "Create 10 AI models",
       },
       {
-        text: "Create 1000 images per month",
+        text: "Create 1000 images",
       },
       {
         text: "Full commercial use",
@@ -69,11 +61,14 @@ export const PRICING_ITEMS: PricingItem[] = [
     price: {
       amount: 79,
       cutAmount: 99,
-      priceIds: {
-        test: "visionary_test_id",
-        production: "visionary_prod_id",
-      },
     },
-    checkoutUrl: "",
+    checkoutUrl: process.env.NEXT_PUBLIC_PRODUCT_ID_3_URL as string,
   },
 ];
+
+export enum CreditType {
+  USER_REGISTRATION = "USER_REGISTRATION",
+  IMAGE_GENERATION = "IMAGE_GENERATION",
+  MODEL_TRAINING = "MODEL_TRAINING",
+  SUBSCRIPTION = "SUBSCRIPTION",
+}

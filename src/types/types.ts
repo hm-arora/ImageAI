@@ -45,10 +45,6 @@ export interface PricingItem {
   price: {
     amount: number;
     cutAmount?: number;
-    priceIds: {
-      test: string;
-      production: string;
-    };
   };
   checkoutUrl: string;
 }

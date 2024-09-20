@@ -15,7 +15,6 @@ const SubscriptionSchema = new Schema<SubscriptionDocument>(
     userId: {
       type: String,
       required: [true, "User ID is required"],
-      unique: true,
     },
     status: {
       type: String,

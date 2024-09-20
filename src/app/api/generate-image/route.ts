@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { getTrainingRequest } from "@/actions/training_request.action";
 import { createImageGen } from "@/actions/image-generation.action";
+import { deductCredits, getCreditBalance } from "@/actions/credit.action";
 
 // MOCK:// Image generation
 const SHOULD_MOCK = false;
@@ -29,6 +30,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await validateSession();
     const { prompt, training_id } = await validateRequestBody(request);
+    await validateCredits(session.user!.id);
     const loraUrl = await getLoraUrl(training_id);
     const requestBody = createRequestBody(prompt, loraUrl);
     const fluxResponse = await sendFluxApiRequest(requestBody);
@@ -43,6 +45,12 @@ export async function POST(request: NextRequest) {
     if (imageGenResult.error) {
       throw new Error(imageGenResult.error);
     }
+
+    await deductCredits(
+      session.user!.id,
+      Number(process.env.PER_IMAGE_GEN_CREDIT),
+      `Image generated for training request ${training_id}`
+    );
 
     return NextResponse.json(fluxResponse);
   } catch (error) {
@@ -64,6 +72,13 @@ async function validateRequestBody(request: NextRequest) {
     throw new Error("Missing Params");
   }
   return { prompt, training_id };
+}
+
+async function validateCredits(user_id: string) {
+  const credits = await getCreditBalance(user_id);
+  if (credits < Number(process.env.PER_IMAGE_GEN_CREDIT)) {
+    throw new Error("Insufficient credits");
+  }
 }
 
 async function getLoraUrl(training_id: string) {
