@@ -2,13 +2,12 @@ import mongoose, { Schema, model } from "mongoose";
 
 export interface SubscriptionDocument {
   userId: string;
-  status: "active" | "cancelled" | "expires";
-  renews_at: Date;
+  status: string;
   customerId: string;
   variantId: string;
   subscriptionId: string;
   subscriptionPageUrl: string;
-  other_details: Record<string, any>;
+  otherDetails: Record<string, any>;
 }
 
 const SubscriptionSchema = new Schema<SubscriptionDocument>(
@@ -20,12 +19,7 @@ const SubscriptionSchema = new Schema<SubscriptionDocument>(
     },
     status: {
       type: String,
-      enum: ["active", "cancelled", "expires"],
       required: [true, "Status is required"],
-    },
-    renews_at: {
-      type: Date,
-      required: [true, "Renewal date is required"],
     },
     customerId: {
       type: String,
@@ -43,7 +37,7 @@ const SubscriptionSchema = new Schema<SubscriptionDocument>(
       type: String,
       required: [true, "Subscription page URL is required"],
     },
-    other_details: {
+    otherDetails: {
       type: Schema.Types.Mixed,
       default: {},
     },
@@ -53,5 +47,7 @@ const SubscriptionSchema = new Schema<SubscriptionDocument>(
   }
 );
 
-const Subscription = mongoose.models?.Subscription || model<SubscriptionDocument>("Subscription", SubscriptionSchema);
+const Subscription =
+  mongoose.models?.Subscription ||
+  model<SubscriptionDocument>("Subscription", SubscriptionSchema);
 export default Subscription;
