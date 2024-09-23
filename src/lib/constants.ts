@@ -7,18 +7,21 @@ export const PRICING_ITEMS: PricingItem[] = [
     tagline: "Kickstart your creativity with Snapper",
     features: [
       {
-        text: "Create 1 AI model",
+        text: "100 credits",
       },
       {
-        text: "Create 100 images",
+        text: "1 AI Model",
+      },
+      {
+        text: "30 Images",
       },
       {
         text: "Full commercial use",
       },
     ],
     price: {
-      amount: 10,
-      cutAmount: 18,
+      amount: 9.9,
+      cutAmount: 19.9,
     },
     checkoutUrl: process.env.NEXT_PUBLIC_PRODUCT_ID_1_URL as string,
   },
@@ -28,18 +31,21 @@ export const PRICING_ITEMS: PricingItem[] = [
     tagline: "Unleash your imagination with Creator",
     features: [
       {
-        text: "Create 5 AI models",
+        text: "500 credits",
       },
       {
-        text: "Create 600 images",
+        text: "5 AI Models",
+      },
+      {
+        text: "200 Images",
       },
       {
         text: "Full commercial use",
       },
     ],
     price: {
-      amount: 39,
-      cutAmount: 49,
+      amount: 39.9,
+      cutAmount: 49.9,
     },
     checkoutUrl: process.env.NEXT_PUBLIC_PRODUCT_ID_2_URL as string,
   },
@@ -49,7 +55,10 @@ export const PRICING_ITEMS: PricingItem[] = [
     tagline: "Push the boundaries of creation with Visionary",
     features: [
       {
-        text: "Create 10 AI models",
+        text: "1000 credits",
+      },
+      {
+        text: "10 AI Models",
       },
       {
         text: "Create 1000 images",
@@ -59,8 +68,8 @@ export const PRICING_ITEMS: PricingItem[] = [
       },
     ],
     price: {
-      amount: 79,
-      cutAmount: 99,
+      amount: 79.9,
+      cutAmount: 99.9,
     },
     checkoutUrl: process.env.NEXT_PUBLIC_PRODUCT_ID_3_URL as string,
   },
