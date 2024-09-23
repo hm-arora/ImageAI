@@ -224,6 +224,10 @@ export default function TrainModel() {
               onImagesUploaded={setUploadedImages}
               uploadedImages={uploadedImages}
             />
+            <p className="text-xs text-gray-500 mt-2">
+              Your request will cost{" "}
+              <span className="text-white">50 credits</span> to train a model
+            </p>
             <div className="mt-6 flex gap-4 flex-row-reverse">
               <Button onClick={startModelTraining} disabled={isGenerating}>
                 {isGenerating ? (

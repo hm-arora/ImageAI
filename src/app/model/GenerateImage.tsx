@@ -127,6 +127,10 @@ export default function GenerateImage({ params }: ModelPageProps) {
                 }}
               />
             </div>
+            <p className="text-xs text-gray-500">
+              Your request will cost{" "}
+              <span className="text-white">1 credit</span> per image.
+            </p>
             <div className="flex justify-end space-x-2">
               <Button variant="outline" onClick={() => setPrompt("")}>
                 Reset
