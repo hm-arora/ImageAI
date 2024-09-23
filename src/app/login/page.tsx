@@ -123,7 +123,7 @@ export default function AuthPage() {
       </Button>
       <p className="text-xs text-center text-muted-foreground">
         By {type === "signin" ? "signing in" : "registering"}, you accept our{" "}
-        <a href="#" className="underline">
+        <a href="/terms" className="underline" target="_blank">
           Terms and Conditions
         </a>
       </p>

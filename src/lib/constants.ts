@@ -13,7 +13,10 @@ export const PRICING_ITEMS: PricingItem[] = [
         text: "1 AI Model",
       },
       {
-        text: "30 Images",
+        text: "Create 30 Images",
+      },
+      {
+        text: "Use Forever - No monthly limits",
       },
       {
         text: "Full commercial use",
@@ -37,7 +40,10 @@ export const PRICING_ITEMS: PricingItem[] = [
         text: "5 AI Models",
       },
       {
-        text: "200 Images",
+        text: "Create 200 Images",
+      },
+      {
+        text: "Use Forever - No monthly limits",
       },
       {
         text: "Full commercial use",
@@ -62,6 +68,9 @@ export const PRICING_ITEMS: PricingItem[] = [
       },
       {
         text: "Create 1000 images",
+      },
+      {
+        text: "Use Forever - No monthly limits",
       },
       {
         text: "Full commercial use",
