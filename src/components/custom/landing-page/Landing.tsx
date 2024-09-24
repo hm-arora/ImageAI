@@ -25,13 +25,13 @@ export function LandingPage() {
         <HeaderSticky onPricingClick={scrollToPricing} />
         <Hero />
         <ParallaxScrollDemo />
-        <div ref={pricingRef}>
+        <div ref={pricingRef} id="pricing">
           <PricingComponent session={session} />
         </div>
         <div className="p-10">
           <FAQ />
         </div>
-        <Footer />
+        <Footer onPricingClick={scrollToPricing} />
       </div>
     </div>
   );
