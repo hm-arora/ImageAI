@@ -69,7 +69,7 @@ export default function Footer({
               className="rounded-full w-8 aspect-square"
             />
             <div className="text-left text-base-content-secondary leading-relaxed">
-              Hey Explorer 👋 I'm{" "}
+              Hey Explorer 👋 I&apos;m{" "}
               <a
                 href="https://twitter.com/hm_arora"
                 target="_blank"
