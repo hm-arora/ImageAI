@@ -16,7 +16,14 @@ export default function Footer({
               href="/#"
               className="flex gap-2 justify-center md:justify-start items-center"
             >
-              <Icons.imageAI className="fill-[#e8e8e8] w-6 h-6" />
+              <div className="w-6 h-6 relative">
+                <Image
+                  src="/images/image.svg"
+                  width={24}
+                  height={24}
+                  alt="Logo"
+                />
+              </div>
 
               <strong className="font-extrabold tracking-tight text-base md:text-lg text-white">
                 ImageAI

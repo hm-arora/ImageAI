@@ -5,16 +5,15 @@ import React from "react";
 import { HoverBorderGradient } from "./HoverBodyGradient";
 import { useSession } from "next-auth/react";
 import { Icons } from "@/components/Icons";
+import Logo from "@/components/Logo";
 
 export const Hero = () => {
   const { data: session } = useSession();
   return (
     <div className="flex flex-col items-center px-10 pb-10">
-      <Icons.imageAI
-        width={110}
-        height={110}
-        className="fill-[#e8e8e8] mt-10"
-      />
+      <div className="relative w-24 h-24 mt-12">
+        <Image src="/images/image.svg" width={96} height={96} alt="Logo" />
+      </div>
       <h1 className="mt-4 font-bold text-white">ImageAI</h1>
       <p className="bg-gradient-to-b from-[#e8e8e8] to-[#a7a7a7] bg-clip-text text-center text-5xl font-semibold text-transparent py-2">
         Let AI generate images for you
