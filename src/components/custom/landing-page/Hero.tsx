@@ -5,7 +5,6 @@ import React from "react";
 import { HoverBorderGradient } from "./HoverBodyGradient";
 import { useSession } from "next-auth/react";
 import { Icons } from "@/components/Icons";
-import Logo from "@/components/Logo";
 
 export const Hero = () => {
   const { data: session } = useSession();
