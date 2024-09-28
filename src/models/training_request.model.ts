@@ -1,3 +1,4 @@
+import { connectDB } from "@/lib/mongodb";
 import mongoose, { Schema, model, Document } from "mongoose";
 
 export interface TrainingRequestDocument extends Document {
@@ -34,7 +35,7 @@ const TrainingRequestSchema = new Schema<TrainingRequestDocument>(
   {
     user_id: {
       type: String,
-      required: true,
+      required: false,
       ref: "User",
     },
     request_id: {
@@ -102,5 +103,35 @@ TrainingRequestSchema.index({ request_id: 1 }, { unique: false });
 const TrainingRequest =
   mongoose.models?.TrainingRequest ||
   model<TrainingRequestDocument>("TrainingRequest", TrainingRequestSchema);
+
+// Migration function
+async function migrateUserIdToOptional() {
+  await connectDB();
+  const collection = TrainingRequest.collection;
+
+  // Check if migration is needed
+  const sampleDocument = await collection.findOne({
+    user_id: { $exists: true },
+  });
+  if (!sampleDocument) {
+    console.log("Migration not needed: user_id is already optional");
+    return;
+  }
+
+  try {
+    // Update all existing documents to ensure they have a user_id
+    await collection.updateMany(
+      { user_id: { $exists: false } },
+      { $set: { user_id: null } }
+    );
+
+    console.log("Migration completed: user_id is now optional");
+  } catch (error) {
+    console.error("Migration failed:", error);
+  }
+}
+
+// Run migration
+migrateUserIdToOptional().catch(console.error);
 
 export default TrainingRequest;

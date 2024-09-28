@@ -22,7 +22,10 @@ export async function GET(): Promise<
     await connectDB();
 
     const trainingModels = await TrainingRequest.find({
-      user_id: session.user.id,
+      $or: [
+        { user_id: session.user.id },
+        { user_id: { $in: [undefined] } }
+      ]
     });
 
     const simplifiedTrainingModels: TrainingModel[] = trainingModels.map(
