@@ -15,12 +15,12 @@ export const Hero = () => {
       </div>
       <h1 className="mt-4 font-bold text-white">ImageAI</h1>
       <p className="bg-gradient-to-b from-[#e8e8e8] to-[#a7a7a7] bg-clip-text text-center text-5xl font-semibold text-transparent py-2">
-        Let AI generate images for you
+        Create Images with Your Ideas
       </p>
-      <p className="max-w-2xl bg-gradient-to-b from-[#e8e8e8] to-[#a7a7a7] bg-clip-text text-center text-xl leading-8 text-transparent">
-        Whether you&apos;re an artist, marketer, or business owner, our
-        AI-powered tools give you full control over how your images look and
-        perform
+      <p className="max-w-2xl bg-gradient-to-b from-[#e8e8e8] to-[#a7a7a7] bg-clip-text text-center text-xl leading-8 text-transparent mt-2">
+        With ImageAI, you can easily train AI to create images based on your
+        personal photos, products, or even your pets. Let your imagination run
+        wild!
       </p>
       <div>
         <HoverBorderGradient

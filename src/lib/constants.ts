@@ -58,7 +58,7 @@ export const PRICING_ITEMS: PricingItem[] = [
   {
     plan: "Visionary",
     slug: "visionary",
-    tagline: "Push the boundaries of creation with Visionary",
+    tagline: "Unleash Visionary creativity",
     features: [
       {
         text: "1000 credits",

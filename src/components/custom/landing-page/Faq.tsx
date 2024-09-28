@@ -28,7 +28,7 @@ const Accordian = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div
-      className={cn("px-8 py-6 rounded-lg mt-5 bg-[#1C1B1B] flex flex-col", {
+      className={cn("px-8 py-6 rounded-lg mt-5 bg-zinc-900 flex flex-col border border-zinc-800", {
         "shadow-md": isOpen,
         "shadow-sm": !isOpen,
       })}
@@ -55,9 +55,9 @@ const Accordian = ({
 };
 export const FAQ = () => {
   return (
-    <div className="flex max-w-2xl flex-col items-stretch justify-center pb-10">
-      <h2 className="text-center text-3xl font-semibold text-white">
-        Frequently Asked Questions
+    <div className="flex max-w-2xl flex-col items-stretch justify-center pb-10 mt-12">
+      <h2 className="text-center text-6xl font-semibold text-white mb-10">
+        FAQ
       </h2>
       {questions.map((question, idx) => {
         return (

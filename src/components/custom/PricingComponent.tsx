@@ -130,6 +130,10 @@ const PricingComponent = ({ session }: { session: Session | null }) => {
           })}
         </TooltipProvider>
       </div>
+      <div className="flex divide-x divide-x-zinc-800 items-center justify-center text-white/80 mt-10">
+        <div className="px-10">Model Training - 50 credits</div>
+        <div className="px-10">Flux Image - 1 credit</div>
+      </div>
     </div>
   );
 };
