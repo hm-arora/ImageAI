@@ -13,7 +13,7 @@ export function absoluteUrl(path: string) {
 export function constructMetadata({
   title = "ImageAI",
   description = "Description",
-  image = "/thumbnail.jpeg",
+  image = "/images/thumbnail.png",
   icons = "/favicon.ico",
   noIndex = false,
 }: {
