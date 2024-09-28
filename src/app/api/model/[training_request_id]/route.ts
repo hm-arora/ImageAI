@@ -26,9 +26,9 @@ export async function GET(
       id: result.trainingRequest._id,
       status: result.trainingRequest.status,
       started_at: result.trainingRequest.started_at,
-      completed_at: result.trainingRequest.completed_at,
-      other_details: result.trainingRequest.other_details,
-      image_generations: result.trainingRequest.images,
+      triggerWord: result.trainingRequest.trigger_word,
+      completedAt: result.trainingRequest.completed_at,
+      otherDetails: result.trainingRequest.other_details,
     };
 
     return NextResponse.json(simplifiedRequest);

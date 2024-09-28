@@ -112,6 +112,11 @@ export default function GenerateImage({ params }: ModelPageProps) {
               <label htmlFor="prompt" className="text-lg font-semibold">
                 Prompt
               </label>
+              <p className="text-sm text-white/40">
+                The trigger word for this model is{" "}
+                <span className="font-bold text-white/80">{modelData.triggerWord}</span> .Be
+                sure to include it in your prompt.
+              </p>
               <Textarea
                 id="prompt"
                 placeholder="Enter your prompt here..."
