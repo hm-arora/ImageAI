@@ -3,19 +3,21 @@ import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 
 const questions = [
-  `What happens if I reach my monthly limit of AI models or images?`,
+  `Do I have a time limit to use my purchased AI models or images?`,
   `Can I use the AI-generated images for commercial purposes?`,
-  `Do unused models or images roll over to the next month?`,
   `What type of images work best for AI model training?`,
   `Are there any images I should avoid using for training my AI model?`,
+  `How fast can I train my custom AI model?`,
+  `How many images do I need to get started?`,
 ];
 
 const answers = [
-  `Once you reach your limit, you won't be able to create new models or generate more images until the next billing cycle. However, you can upgrade to a higher plan at any time.`,
+  `No, there's no time limit. Once you've purchased a pack, you can use your AI models or generate your images whenever you want. Your credits don't expire.`,
   `Yes! All our plans, including Snapper, Creator, and Visionary, include full commercial use, allowing you to use the images for personal or business projects.`,
-  `No, unused AI models or image generation credits do not roll over. Your monthly allowance resets at the beginning of each billing cycle.`,
   `Ideal images should have clear, well-lit subjects, a variety of poses and expressions, and a consistent style or theme. Diverse backgrounds also help improve the quality of the AI model.`,
   `Yes, avoid using blurry or low-quality photos, group shots, heavily filtered or edited images, copyrighted or watermarked content, and inappropriate or offensive images.`,
+  `Lightning quick! In just 3-5 minutes, your custom AI model will be ready. After that, generating unique images takes less than 10 seconds!`,
+  `Just 4 stunning images, and your custom AI model is good to go!`,
 ];
 
 const Accordian = ({
@@ -28,10 +30,13 @@ const Accordian = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <div
-      className={cn("px-8 py-6 rounded-lg mt-5 bg-zinc-900 flex flex-col border border-zinc-800", {
-        "shadow-md": isOpen,
-        "shadow-sm": !isOpen,
-      })}
+      className={cn(
+        "px-8 py-6 rounded-lg mt-5 bg-zinc-900 flex flex-col border border-zinc-800",
+        {
+          "shadow-md": isOpen,
+          "shadow-sm": !isOpen,
+        }
+      )}
     >
       <button
         className="cursor-pointer text-start font-semibold text-white"
@@ -56,7 +61,6 @@ const Accordian = ({
 export const FAQ = () => {
   return (
     <div className="flex max-w-2xl flex-col items-stretch justify-center pb-10 mt-12">
-
       <h2 className="bg-gradient-to-b from-[#e8e8e8] to-[#a7a7a7] bg-clip-text text-center text-6xl sm:text-7xl font-semibold text-transparent py-2 mb-10">
         FAQ
       </h2>
