@@ -53,7 +53,10 @@ export const ParallaxScroll = ({
   }, []);
 
   return (
-    <div className={cn("w-full overflow-x-auto", className)} ref={gridRef}>
+    <div 
+      className={cn("w-full overflow-x-auto scrollbar-hide", className)} 
+      ref={gridRef}
+    >
       <div className="flex items-start max-w-none gap-10 py-10 px-40 flex-col">
         <motion.div
           className="flex flex-row gap-4 md:gap-10"

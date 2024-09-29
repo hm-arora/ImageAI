@@ -56,7 +56,8 @@ const Accordian = ({
 export const FAQ = () => {
   return (
     <div className="flex max-w-2xl flex-col items-stretch justify-center pb-10 mt-12">
-      <h2 className="text-center text-6xl font-semibold text-white mb-10">
+
+      <h2 className="bg-gradient-to-b from-[#e8e8e8] to-[#a7a7a7] bg-clip-text text-center text-6xl sm:text-7xl font-semibold text-transparent py-2 mb-10">
         FAQ
       </h2>
       {questions.map((question, idx) => {

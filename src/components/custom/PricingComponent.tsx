@@ -25,7 +25,9 @@ const PricingComponent = ({ session }: { session: Session | null }) => {
   return (
     <div className="mb-8 mt-24 text-center">
       <div className="mx-auto mb-10 sm:max-w-lg">
-        <h1 className="text-6xl sm:text-7xl font-bold text-white">Pricing</h1>
+        <p className="bg-gradient-to-b from-[#e8e8e8] to-[#a7a7a7] bg-clip-text text-center text-6xl sm:text-7xl font-semibold text-transparent py-2 mb-10">
+          Pricing
+        </p>
         <p className="mt-4 text-gray-400 sm:text-lg">
           Whether you&apos;re just trying our service or need more, we&apos;ve
           got you covered

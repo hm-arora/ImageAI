@@ -7,6 +7,7 @@ import { FAQ } from "./Faq";
 import Footer from "./Footer";
 import PricingComponent from "../PricingComponent";
 import { ParallaxScrollDemo } from "./ParallexScrollDemo";
+import VideoDemo from "./VideoDemo";
 
 export function LandingPage() {
   const { data: session } = useSession();
@@ -25,6 +26,8 @@ export function LandingPage() {
         <HeaderSticky onPricingClick={scrollToPricing} />
         <Hero />
         <ParallaxScrollDemo />
+        <VideoDemo />
+
         <div ref={pricingRef} id="pricing">
           <PricingComponent session={session} />
         </div>

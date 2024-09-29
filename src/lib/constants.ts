@@ -90,3 +90,5 @@ export enum CreditType {
   MODEL_TRAINING = "MODEL_TRAINING",
   SUBSCRIPTION = "SUBSCRIPTION",
 }
+
+export const GITHUB_URL = "https://github.com/hm-arora/imageai";

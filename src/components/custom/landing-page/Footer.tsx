@@ -1,4 +1,5 @@
 import { Icons } from "@/components/Icons";
+import { GITHUB_URL } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -41,15 +42,18 @@ export default function Footer({
                 LINKS
               </h3>
               <div className="flex flex-col justify-center items-center md:items-start gap-2 mb-10 text-sm">
-                <Link href={"#"} className="">
-                  Support
-                </Link>
                 <div
                   className="cursor-pointer hover:text-white transition-all duration-300"
                   onClick={onPricingClick}
                 >
                   Pricing
                 </div>
+                <Link
+                  href={GITHUB_URL}
+                  className="cursor-pointer hover:text-white transition-all duration-300"
+                >
+                  GitHub
+                </Link>
               </div>
             </div>
 
@@ -69,7 +73,7 @@ export default function Footer({
         <div className="mt-12 md:mt-16 text-sm">
           <div className="flex flex-row justify-start items-center gap-4">
             <Image
-              src="/placeholder.svg"
+              src="/twitter-avatar.jpg"
               alt="Himanshu"
               width={32}
               height={32}
@@ -81,16 +85,18 @@ export default function Footer({
                 href="https://twitter.com/hm_arora"
                 target="_blank"
                 rel="noreferrer"
-                className="link text-base-content font-medium"
+                className="link text-base-content font-medium underline"
               >
                 Himanshu
               </a>
-              , the creator of ImageAI. You can follow my work on{" "}
+              , the creator of{" "}
+              <span className="font-bold underline">ImageAI</span>. You can
+              follow my work on{" "}
               <a
                 href="https://twitter.com/hm_arora"
                 target="_blank"
                 rel="noreferrer"
-                className="link text-base-content font-medium"
+                className="link text-base-content font-medium underline"
               >
                 Twitter.
               </a>
