@@ -1,5 +1,6 @@
 "use server";
 import { connectDB } from "@/lib/mongodb";
+import ImageGeneration from "@/models/image-generation.model";
 import TrainingRequest from "@/models/training_request.model";
 
 export const createTrainingRequest = async (values: any) => {
@@ -76,7 +77,7 @@ export const getTrainingRequestByRequestId = async (request_id: string) => {
   }
 };
 
-export const getTrainingRequest = async (_id: string) => {
+export const getTrainingRequest = async (user_id: string, _id: string) => {
   try {
     await connectDB();
     const trainingRequest = await TrainingRequest.findById(_id);
@@ -84,6 +85,13 @@ export const getTrainingRequest = async (_id: string) => {
     if (!trainingRequest) {
       return { error: "Training request not found." };
     }
+
+    const imageGenerations = await ImageGeneration.find({
+      training_request_id: _id,
+      user_id: user_id,
+    });
+
+    trainingRequest.image_generations = imageGenerations;
 
     return { success: true, trainingRequest };
   } catch (e) {

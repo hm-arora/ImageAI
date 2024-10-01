@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     const session = await validateSession();
     const { prompt, training_id } = await validateRequestBody(request);
     await validateCredits(session.user!.id);
-    const loraUrl = await getLoraUrl(training_id);
+    const loraUrl = await getLoraUrl(session.user!.id, training_id);
     const requestBody = createRequestBody(prompt, loraUrl);
     const fluxResponse = await sendFluxApiRequest(requestBody);
 
@@ -81,8 +81,8 @@ async function validateCredits(user_id: string) {
   }
 }
 
-async function getLoraUrl(training_id: string) {
-  const result = await getTrainingRequest(training_id);
+async function getLoraUrl(user_id: string, training_id: string) {
+  const result = await getTrainingRequest(user_id, training_id);
   if (result.error || !result.trainingRequest) {
     throw new Error("Training request not found");
   }

@@ -8,6 +8,7 @@ import { toast } from "@/components/ui/use-toast";
 import { ErrorResponse } from "@/types/types";
 import { cn } from "@/lib/utils";
 import { NavbarWrapper } from "@/components/NavbarWrapper";
+import ImageGrid from "@/components/ImageGrid";
 
 type ModelPageProps = {
   params: { id: string };
@@ -114,8 +115,10 @@ export default function GenerateImage({ params }: ModelPageProps) {
               </label>
               <p className="text-sm text-white/40">
                 The trigger word for this model is{" "}
-                <span className="font-bold text-white/80">{modelData.triggerWord}</span> .Be
-                sure to include it in your prompt.
+                <span className="font-bold text-white/80">
+                  {modelData.triggerWord}
+                </span>{" "}
+                .Be sure to include it in your prompt.
               </p>
               <Textarea
                 id="prompt"
@@ -174,6 +177,10 @@ export default function GenerateImage({ params }: ModelPageProps) {
             </div>
           </div>
         </div>
+        {modelData.image_generations &&
+          modelData.image_generations.length > 0 && (
+            <ImageGrid imageGenerations={modelData.image_generations} />
+          )}
       </div>
     </NavbarWrapper>
   );
