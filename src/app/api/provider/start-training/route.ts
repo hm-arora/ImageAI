@@ -32,11 +32,11 @@ async function validateSession() {
 }
 
 function validateRequest(body: any) {
-  const { images_data_url, image_data, trigger_word } = body;
+  const { images_data_url, cover_image_url, trigger_word } = body;
   if (!images_data_url) {
     throw new Error("Images are required");
   }
-  return { images_data_url, image_data, trigger_word };
+  return { images_data_url, cover_image_url, trigger_word };
 }
 
 async function validateCredits(user_id: string) {
@@ -44,23 +44,6 @@ async function validateCredits(user_id: string) {
   if (credits < Number(process.env.PER_MODEL_TRAIN_CREDIT)) {
     throw new Error("Insufficient credits");
   }
-}
-
-async function getUploadCoverImage(image_data: string) {
-  const base64Image = image_data;
-  const filename = `uploads/${createUUID()}-cover.png`;
-  // Remove the data:image/xxx;base64, part if present
-  const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
-
-  // Create a buffer from the base64 string
-  const buffer = Buffer.from(base64Data, "base64");
-
-  // Create a File object from the buffer
-  const file = new File([buffer], filename, { type: "image/png" });
-  // Upload the file to the bucket
-  const result = await uploadFileToBucket(file, filename);
-  const publicUrl = await getPublicFileUrl(filename);
-  return publicUrl;
 }
 
 async function processRequest(images_data_url: string, trigger_word: string) {
@@ -95,9 +78,8 @@ export async function POST(request: Request) {
   try {
     const user = await validateSession();
     const body = await request.json();
-    const { images_data_url, image_data, trigger_word } = validateRequest(body);
+    const { images_data_url, cover_image_url, trigger_word } = validateRequest(body);
     await validateCredits(user.id);
-    const cover_image_url = await getUploadCoverImage(image_data);
     const data = await processRequest(images_data_url, trigger_word);
 
     if (data.status === "IN_QUEUE") {

@@ -63,6 +63,41 @@ export default function TrainModel() {
     return false;
   };
 
+  const uploadCoverImage = async (imageData: string) => {
+    const base64Data = imageData.split(",")[1];
+    const binaryData = Uint8Array.from(atob(base64Data), (c) =>
+      c.charCodeAt(0)
+    );
+    const file = new File([binaryData], "cover.png", { type: "image/png" });
+
+    const response = await fetch("/api/get-presigned-url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fileName: "cover.png",
+        fileType: "image/png",
+        fileSize: file.size,
+      }),
+    });
+
+    const data = await response.json();
+    const putResponse = await axios.put(data.presignedUrl, file, {
+      headers: {
+        "Content-Type": "image/png",
+      },
+    });
+
+    if (putResponse.status === 200) {
+      console.log("Cover image uploaded successfully");
+      return data.publicUrl;
+    } else {
+      console.error("Cover image upload failed");
+      return null;
+    }
+  };
+
   const getZipPublicUrl = async () => {
     const zip = new JSZip();
 
@@ -116,11 +151,14 @@ export default function TrainModel() {
         ? `Generate high quality images of ${modelName}`
         : modelDescription;
     setIsGenerating(true);
-    const zipPublicUrl = await getZipPublicUrl();
-    if (!zipPublicUrl) {
+    const [zipPublicUrl, coverImageUrl] = await Promise.all([
+      getZipPublicUrl(),
+      uploadCoverImage(uploadedImages[0])
+    ]);
+    if (!zipPublicUrl || !coverImageUrl) {
       toast({
         title: "Error",
-        description: "Failed to upload zip file",
+        description: "Failed to upload files",
         variant: "destructive",
       });
       return;
@@ -136,7 +174,7 @@ export default function TrainModel() {
           name: modelName,
           description: modelDesc,
           trigger_word: triggerWord,
-          image_data: uploadedImages[0],
+          cover_image_url: coverImageUrl,
         }),
       });
 
